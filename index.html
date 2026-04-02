@@ -339,25 +339,15 @@
             transform: scaleX(-1);
         }
 
-        /* Center logo in Arabic mode for better aesthetic */
-        html[lang="ar"] .flex.justify-between.items-center.h-20 {
-            display: grid !important;
-            grid-template-columns: 1fr auto 1fr;
-            justify-items: center;
+        /* Ensure logo img doesn't have offset that looks like it's "falling" */
+        nav img {
+            transform: none !important;
+            translate: 0 !important;
         }
 
-        html[lang="ar"] .flex.justify-between.items-center.h-20 > div:first-child {
-            grid-column: 2;
-        }
-
-        html[lang="ar"] .flex.justify-between.items-center.h-20 > div:nth-child(2) {
-            grid-column: 1;
-            justify-self: start;
-        }
-
-        html[lang="ar"] .flex.justify-between.items-center.h-20 > .md\:hidden {
-            grid-column: 3;
-            justify-self: end;
+        /* Adjust hero layout for RTL to prevent squeezing */
+        html[lang="ar"] .lg\:grid-cols-2 {
+            direction: rtl;
         }
     </style>
 </head>
@@ -369,27 +359,29 @@
         class="fixed w-full z-50 glass-panel border-b border-slate-200 dark:border-slate-800 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
+                <!-- Logo: Always at the Start -->
                 <div class="flex-shrink-0 flex items-center">
                     <a class="flex items-center group py-2" href="#">
                         <img alt="O2Z.AI Logo"
-                            class="h-[100px] sm:h-[120px] lg:h-[140px] w-auto object-contain transition-all duration-300 group-hover:opacity-80 translate-y-1 sm:translate-y-2 lg:translate-y-3"
+                            class="h-[80px] sm:h-[100px] lg:h-[120px] w-auto object-contain transition-all duration-300 group-hover:opacity-80"
                             src="./logo.webp" />
                     </a>
                 </div>
+
+                <!-- Desktop Navigation: Grouped at the End -->
                 <div class="hidden md:flex items-center gap-8">
+                    <a class="text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors text-sm font-medium tracking-wide"
+                        href="#capabilities" data-i18n="nav_cap">Capabilities</a>
+                    
                     <!-- Services Dropdown Group -->
                     <div class="relative group">
                         <a class="flex items-center gap-1 text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-all text-sm font-medium tracking-wide py-8 cursor-pointer"
-                            href="#infrastructure" data-i18n="nav_suite">
-                            الخدمات
+                            href="#infrastructure" data-i18n="nav_suite">الخدمات
                             <span class="material-icons text-[18px] transition-transform group-hover:rotate-180">expand_more</span>
                         </a>
-                        
-                        <!-- Mega Menu Dropdown -->
-                        <div class="absolute top-[80px] left-1/2 -translate-x-1/2 w-[350px] invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 z-50">
-                            <div class="glass-panel p-2 rounded-[2rem] border border-primary/30 bg-slate-900/95 shadow-[0_20px_50px_rgba(0,229,255,0.2)] backdrop-blur-3xl overflow-hidden">
+                        <div class="absolute top-[80px] right-0 w-[350px] invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 z-50">
+                            <div class="glass-panel p-2 rounded-[2rem] border border-primary/30 bg-slate-900/95 shadow-[0_20px_50px_rgba(0,229,255,0.2)] backdrop-blur-3xl overflow-hidden text-left" dir="ltr">
                                 <div class="flex flex-col gap-1 p-2">
-                                    <!-- Service 1 -->
                                     <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-primary/20">
                                         <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-slate-900 shadow-sm transition-all duration-500">
                                             <span class="material-icons text-2xl">forum</span>
@@ -399,7 +391,6 @@
                                             <p class="text-[10px] text-slate-400 line-clamp-1 opacity-70 group-hover/item:opacity-100" data-i18n="feat_1_d"></p>
                                         </div>
                                     </a>
-                                    <!-- Service 2 -->
                                     <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-secondary/20">
                                         <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary group-hover/item:bg-secondary group-hover/item:text-white shadow-sm transition-all duration-500">
                                             <span class="material-icons text-2xl">smart_toy</span>
@@ -409,7 +400,6 @@
                                             <p class="text-[10px] text-slate-400 line-clamp-1 opacity-70 group-hover/item:opacity-100" data-i18n="feat_2_d"></p>
                                         </div>
                                     </a>
-                                    <!-- Service 3 -->
                                     <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-primary/20">
                                         <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-slate-900 shadow-sm transition-all duration-500">
                                             <span class="material-icons text-2xl">settings_suggest</span>
@@ -419,7 +409,6 @@
                                             <p class="text-[10px] text-slate-400 line-clamp-1 opacity-70 group-hover/item:opacity-100" data-i18n="feat_3_d"></p>
                                         </div>
                                     </a>
-                                    <!-- Service 4 -->
                                     <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-secondary/20">
                                         <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary group-hover/item:bg-secondary group-hover/item:text-white shadow-sm transition-all duration-500">
                                             <span class="material-icons text-2xl">campaign</span>
@@ -429,7 +418,6 @@
                                             <p class="text-[10px] text-slate-400 line-clamp-1 opacity-70 group-hover/item:opacity-100" data-i18n="feat_4_d"></p>
                                         </div>
                                     </a>
-                                    <!-- Service 5 -->
                                     <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-primary/20">
                                         <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-slate-900 shadow-sm transition-all duration-500">
                                             <span class="material-icons text-2xl">trending_up</span>
@@ -440,23 +428,14 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="p-4 bg-white/5 border-t border-white/10 text-center">
-                                    <a href="#infrastructure" class="text-xs font-bold text-primary hover:text-white transition-colors flex items-center justify-center gap-2 uppercase tracking-widest">
-                                        <span>Discover All Solutions</span>
-                                        <span class="material-icons text-xs">arrow_forward</span>
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </div>
-                    <a class="text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors text-sm font-medium tracking-wide"
-                        href="#capabilities" data-i18n="nav_cap">Capabilities</a>
 
-                    <!-- Language Toggle Button -->
                     <button onclick="toggleLanguage()"
                         class="flex items-center gap-1.5 px-3 py-1.5 rounded border border-slate-300 dark:border-slate-700 hover:border-primary transition-colors text-slate-600 dark:text-slate-300">
                         <span class="material-icons text-[16px]">translate</span>
-                        <span id="langLabel" class="text-xs font-bold">عربي</span>
+                        <span id="langLabel" class="text-xs font-bold uppercase truncate">عربي</span>
                     </button>
 
                     <a class="relative inline-flex h-[42px] items-center justify-center overflow-hidden rounded-full p-[2px] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark shadow-[0_0_15px_rgba(0,229,255,0.3)] hover:shadow-[0_0_25px_rgba(0,229,255,0.6)] transition-all group duration-300 transform hover:scale-105"
@@ -468,6 +447,8 @@
                         </span>
                     </a>
                 </div>
+
+                <!-- Mobile Navigation Table: Trigger & Lang -->
                 <div class="md:hidden flex items-center gap-4">
                     <button onclick="toggleLanguage()"
                         class="flex items-center gap-1 text-slate-600 dark:text-slate-300">
@@ -552,7 +533,7 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-                <div class="text-center lg:text-left rtl:-scale-x-1 lg:rtl:text-right" dir="auto">
+                <div class="text-center lg:text-left lg:rtl:text-right" dir="auto">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-widest mb-6"
                         data-i18n="next_gen">
                         <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
@@ -569,7 +550,7 @@
                         Next-Generation Growth Operating System to unify, automate, and scale modern businesses. Elevate
                         your operations from Omni to Zenith.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start lg:rtl:justify-start">
                         <a class="px-8 py-4 rounded-full bg-primary text-background-dark font-semibold text-lg hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,229,255,0.4)] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)] flex items-center justify-center gap-2 group"
                             href="#suite">
                             <span data-i18n="hero_btn1">Build Your Backbone</span>
