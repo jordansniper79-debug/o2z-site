@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>O2Z.AI - Enterprise Omnichannel AI Infrastructure</title>
+    <!-- Tailwind CSS with Forms and Typography plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#00E5FF", // Zenith Cyan
+                        secondary: "#2962FF", // Electric Cobalt
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#0B1120", // Deep Galactic Dark Mode
+                        surface: {
+                            light: "#FFFFFF",
+                            dark: "#1E293B",
+                        },
+                        metallic: {
+                            light: "#E2E8F0",
+                            dark: "#334155",
+                            accent: "#94A3B8"
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Cairo', 'sans-serif'],
+                        display: ['Rajdhani', 'Cairo', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem",
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'metallic-gradient': 'linear-gradient(135deg, #1E293B 0%, #334155 50%, #1E293B 100%)',
+                        'text-metallic': 'linear-gradient(to right, #94A3B8, #F8FAFC, #94A3B8)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shimmer': 'shimmer 2.5s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                },
+            },
+        };
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .text-gradient-metallic {
+            background-image: linear-gradient(to right, #94A3B8, #FFFFFF, #94A3B8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shimmer 4s linear infinite;
+        }
+
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 229, 255, 0.1), 0 10px 10px -5px rgba(0, 229, 255, 0.04);
+        }
+
+        .spine-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawLine 3s ease-out forwards infinite alternate;
+        }
+
+        @keyframes drawLine {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .node-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(0, 229, 255, 0);
+            }
+
+            100% {
+                transform: scale(0.8);
+                box-shadow: 0 0 0 0 rgba(0, 229, 255, 0);
+            }
+        }
+
+        .perspective-1000 {
+            perspective: 1000px;
+            display: block;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .flip-card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .group:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        html[dir="rtl"] .group:hover .flip-card-inner {
+            transform: rotateY(-180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        html[dir="rtl"] .flip-card-back {
+            transform: rotateY(-180deg);
+        }
+
+        .hide-scroll-bar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .hide-scroll-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-50%));
+            }
+        }
+
+        @keyframes marquee-rtl {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(50%));
+            }
+        }
+
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        html[dir="rtl"] .animate-marquee {
+            animation: marquee-rtl 30s linear infinite;
+        }
+
+        .group-slider:hover .animate-marquee {
+            animation-play-state: paused;
+        }
+
+        .animated-border {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.5), transparent 40%, transparent 60%, rgba(41, 98, 255, 0.5));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.3;
+            transition: opacity 0.5s ease;
+        }
+
+        .group:hover .animated-border {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.8), rgba(41, 98, 255, 0.3) 50%, rgba(0, 229, 255, 0.8));
+        }
+
+        .icon-glow {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: inherit;
+            filter: blur(15px);
+            opacity: 0.4;
+            transition: opacity 0.5s ease;
+        }
+
+        .group:hover .icon-glow {
+            opacity: 0.8;
+            filter: blur(25px);
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes marquee-rtl {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(50%);
+            }
+        }
+
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+            will-change: transform;
+        }
+
+        html[dir="rtl"] .animate-marquee {
+            animation: marquee-rtl 30s linear infinite;
+        }
+
+        .group-slider:hover .animate-marquee {
+            animation-play-state: paused;
+        }
+
+        .animated-border {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.5), transparent 40%, transparent 60%, rgba(41, 98, 255, 0.5));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.3;
+            transition: opacity 0.5s ease;
+        }
+
+        .group:hover .animated-border {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.8), rgba(41, 98, 255, 0.3) 50%, rgba(0, 229, 255, 0.8));
+        }
+
+        .icon-glow {
+            position: absolute;
+            inset: 0;
+            background: inherit;
+            filter: blur(15px);
+            opacity: 0.6;
+            transition: opacity 0.5s ease;
+        }
+
+        .group:hover .icon-glow {
+            opacity: 1;
+            filter: blur(25px);
+        }
+
+
+        html[lang="ar"] h1,
+        html[lang="ar"] h2,
+        html[lang="ar"] h3 {
+            line-height: 1.35 !important;
+        }
+
+        html[lang="ar"] .tracking-tight {
+            letter-spacing: 0 !important;
+        }
+
+        .rtl-flip {
+            transition: transform 0.3s ease;
+        }
+
+        html[dir="rtl"] .rtl-flip {
+            transform: scaleX(-1);
+        }
+
+        /* Center logo in Arabic mode for better aesthetic */
+        html[lang="ar"] .flex.justify-between.items-center.h-20 {
+            display: grid !important;
+            grid-template-columns: 1fr auto 1fr;
+            justify-items: center;
+        }
+
+        html[lang="ar"] .flex.justify-between.items-center.h-20 > div:first-child {
+            grid-column: 2;
+        }
+
+        html[lang="ar"] .flex.justify-between.items-center.h-20 > div:nth-child(2) {
+            grid-column: 1;
+            justify-self: start;
+        }
+
+        html[lang="ar"] .flex.justify-between.items-center.h-20 > .md\:hidden {
+            grid-column: 3;
+            justify-self: end;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-sans antialiased overflow-x-hidden selection:bg-primary selection:text-background-dark transition-colors duration-300">
+    <!-- Navbar -->
+    <nav
+        class="fixed w-full z-50 glass-panel border-b border-slate-200 dark:border-slate-800 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a class="flex items-center group py-2" href="#">
+                        <img alt="O2Z.AI Logo"
+                            class="h-[100px] sm:h-[120px] lg:h-[140px] w-auto object-contain transition-all duration-300 group-hover:opacity-80 translate-y-1 sm:translate-y-2 lg:translate-y-3"
+                            src="./logo.webp" />
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center gap-8">
+                    <!-- Services Dropdown Group -->
+                    <div class="relative group">
+                        <a class="flex items-center gap-1 text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-all text-sm font-medium tracking-wide py-8 cursor-pointer"
+                            href="#infrastructure" data-i18n="nav_suite">
+                            الخدمات
+                            <span class="material-icons text-[18px] transition-transform group-hover:rotate-180">expand_more</span>
+                        </a>
+                        
+                        <!-- Mega Menu Dropdown -->
+                        <div class="absolute top-[80px] left-1/2 -translate-x-1/2 w-[350px] invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-500 scale-95 group-hover:scale-100 z-50">
+                            <div class="glass-panel p-2 rounded-[2rem] border border-primary/30 bg-slate-900/95 shadow-[0_20px_50px_rgba(0,229,255,0.2)] backdrop-blur-3xl overflow-hidden">
+                                <div class="flex flex-col gap-1 p-2">
+                                    <!-- Service 1 -->
+                                    <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-primary/20">
+                                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-slate-900 shadow-sm transition-all duration-500">
+                                            <span class="material-icons text-2xl">forum</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h5 class="text-white text-sm font-bold mb-0.5 group-hover/item:text-primary transition-colors" data-i18n="feat_1_t">Unified Communication Hub</h5>
+                                            <p class="text-[10px] text-slate-400 line-clamp-1 opacity-70 group-hover/item:opacity-100" data-i18n="feat_1_d"></p>
+                                        </div>
+                                    </a>
+                                    <!-- Service 2 -->
+                                    <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-secondary/20">
+                                        <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary group-hover/item:bg-secondary group-hover/item:text-white shadow-sm transition-all duration-500">
+                                            <span class="material-icons text-2xl">smart_toy</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h5 class="text-white text-sm font-bold mb-0.5 group-hover/item:text-secondary transition-colors" data-i18n="feat_2_t">AI Digital Workforce</h5>
+                                            <p class="text-[10px] text-slate-400 line-clamp-1 opacity-70 group-hover/item:opacity-100" data-i18n="feat_2_d"></p>
+                                        </div>
+                                    </a>
+                                    <!-- Service 3 -->
+                                    <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-primary/20">
+                                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-slate-900 shadow-sm transition-all duration-500">
+                                            <span class="material-icons text-2xl">settings_suggest</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h5 class="text-white text-sm font-bold mb-0.5 group-hover/item:text-primary transition-colors" data-i18n="feat_3_t">Workflow Automation</h5>
+                                            <p class="text-[10px] text-slate-400 line-clamp-1 opacity-70 group-hover/item:opacity-100" data-i18n="feat_3_d"></p>
+                                        </div>
+                                    </a>
+                                    <!-- Service 4 -->
+                                    <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-secondary/20">
+                                        <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary group-hover/item:bg-secondary group-hover/item:text-white shadow-sm transition-all duration-500">
+                                            <span class="material-icons text-2xl">campaign</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h5 class="text-white text-sm font-bold mb-0.5 group-hover/item:text-secondary transition-colors" data-i18n="feat_4_t">WhatsApp Marketing System</h5>
+                                            <p class="text-[10px] text-slate-400 line-clamp-1 opacity-70 group-hover/item:opacity-100" data-i18n="feat_4_d"></p>
+                                        </div>
+                                    </a>
+                                    <!-- Service 5 -->
+                                    <a href="#infrastructure" class="flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item border border-transparent hover:border-primary/20">
+                                        <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover/item:bg-primary group-hover/item:text-slate-900 shadow-sm transition-all duration-500">
+                                            <span class="material-icons text-2xl">trending_up</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h5 class="text-white text-sm font-bold mb-0.5 group-hover/item:text-primary transition-colors" data-i18n="feat_5_t">Data Insights & Growth</h5>
+                                            <p class="text-[10px] text-slate-400 line-clamp-1 opacity-70 group-hover/item:opacity-100" data-i18n="feat_5_d"></p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="p-4 bg-white/5 border-t border-white/10 text-center">
+                                    <a href="#infrastructure" class="text-xs font-bold text-primary hover:text-white transition-colors flex items-center justify-center gap-2 uppercase tracking-widest">
+                                        <span>Discover All Solutions</span>
+                                        <span class="material-icons text-xs">arrow_forward</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors text-sm font-medium tracking-wide"
+                        href="#capabilities" data-i18n="nav_cap">Capabilities</a>
+
+                    <!-- Language Toggle Button -->
+                    <button onclick="toggleLanguage()"
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded border border-slate-300 dark:border-slate-700 hover:border-primary transition-colors text-slate-600 dark:text-slate-300">
+                        <span class="material-icons text-[16px]">translate</span>
+                        <span id="langLabel" class="text-xs font-bold">عربي</span>
+                    </button>
+
+                    <a class="relative inline-flex h-[42px] items-center justify-center overflow-hidden rounded-full p-[2px] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background-dark shadow-[0_0_15px_rgba(0,229,255,0.3)] hover:shadow-[0_0_25px_rgba(0,229,255,0.6)] transition-all group duration-300 transform hover:scale-105"
+                        href="https://wa.me/962797979760" target="_blank">
+                        <span class="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00E5FF_0%,#2962FF_50%,#00E5FF_100%)]"></span>
+                        <span class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-900 dark:bg-surface-dark px-5 py-2 text-sm font-semibold text-white backdrop-blur-3xl group-hover:bg-slate-800 dark:group-hover:bg-slate-800/80 transition-colors gap-2">
+                            <span data-i18n="nav_start">Start Now</span>
+                            <span class="material-icons text-sm rtl:-scale-x-100 animate-pulse">rocket_launch</span>
+                        </span>
+                    </a>
+                </div>
+                <div class="md:hidden flex items-center gap-4">
+                    <button onclick="toggleLanguage()"
+                        class="flex items-center gap-1 text-slate-600 dark:text-slate-300">
+                        <span id="langLabelMobile" class="text-sm font-bold">عربي</span>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="text-slate-600 dark:text-slate-300 hover:text-primary focus:outline-none transition-transform active:scale-95"
+                        type="button">
+                        <span class="material-icons text-2xl" id="menuIcon">menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenu" class="fixed inset-0 z-[60] bg-background-dark/95 backdrop-blur-2xl transition-all duration-300 transform translate-x-full md:hidden" dir="rtl">
+        <div class="flex flex-col h-full p-6 pt-24 overflow-y-auto">
+            <div class="flex flex-col gap-6">
+                <!-- Services Accordion -->
+                <div class="space-y-4">
+                    <button onclick="toggleMobileSubmenu('servicesSubmenu')" class="flex items-center justify-between w-full text-xl font-bold text-white border-b border-white/5 pb-2">
+                        <span data-i18n="nav_suite">الخدمات</span>
+                        <span class="material-icons transition-transform" id="servicesSubmenuArrow">expand_more</span>
+                    </button>
+                    <div id="servicesSubmenu" class="hidden flex flex-col gap-4 pr-4 border-r border-primary/20 mr-2 mt-4">
+                        <a href="#infrastructure" onclick="toggleMobileMenu()" class="flex items-center gap-3 py-2 text-slate-300 hover:text-primary">
+                            <span class="material-icons text-primary">forum</span>
+                            <span data-i18n="feat_1_t">مركز المحادثات الموحد</span>
+                        </a>
+                        <a href="#infrastructure" onclick="toggleMobileMenu()" class="flex items-center gap-3 py-2 text-slate-300 hover:text-secondary">
+                            <span class="material-icons text-secondary">smart_toy</span>
+                            <span data-i18n="feat_2_t">موظف الذكاء الاصطناعي</span>
+                        </a>
+                        <a href="#infrastructure" onclick="toggleMobileMenu()" class="flex items-center gap-3 py-2 text-slate-300 hover:text-primary">
+                            <span class="material-icons text-primary">settings_suggest</span>
+                            <span data-i18n="feat_3_t">أتمتة العمليات (Workflow)</span>
+                        </a>
+                        <a href="#infrastructure" onclick="toggleMobileMenu()" class="flex items-center gap-3 py-2 text-slate-300 hover:text-secondary">
+                            <span class="material-icons text-secondary">campaign</span>
+                            <span data-i18n="feat_4_t">نظام حملات الواتساب</span>
+                        </a>
+                        <a href="#infrastructure" onclick="toggleMobileMenu()" class="flex items-center gap-3 py-2 text-slate-300 hover:text-primary">
+                            <span class="material-icons text-primary">trending_up</span>
+                            <span data-i18n="feat_5_t">تحليل ونمو البيانات</span>
+                        </a>
+                    </div>
+                </div>
+
+                <a href="#capabilities" onclick="toggleMobileMenu()" class="text-xl font-bold text-white border-b border-white/5 pb-2" data-i18n="nav_cap">Capabilities</a>
+                
+                <div class="mt-8">
+                     <a class="relative inline-flex w-full h-[54px] items-center justify-center overflow-hidden rounded-xl p-[2px] focus:outline-none shadow-[0_0_20px_rgba(0,229,255,0.3)]"
+                        href="https://wa.me/962797979760" target="_blank" onclick="toggleMobileMenu()">
+                        <span class="absolute inset-[-1000%] animate-[spin_4s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#00E5FF_0%,#2962FF_50%,#00E5FF_100%)]"></span>
+                        <span class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-xl bg-slate-900 border border-white/10 px-8 py-2 text-lg font-bold text-white backdrop-blur-3xl gap-2">
+                            <span data-i18n="nav_start">Start Now</span>
+                            <span class="material-icons text-xl animate-pulse">rocket_launch</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Close Button Top Right -->
+            <button onclick="toggleMobileMenu()" class="absolute top-6 left-6 text-white text-3xl">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
+        <div class="absolute inset-0 z-0 ltr-only" dir="ltr">
+            <div
+                class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMTQ4LCAxNjMsIDE4NCwgMC4xKSIvPjwvc3ZnPg==')] [mask-image:linear-gradient(to_bottom,white,transparent)] rtl-flip">
+            </div>
+            <div
+                class="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary/20 rounded-full mix-blend-screen filter blur-[100px] animate-pulse-slow">
+            </div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/20 rounded-full mix-blend-screen filter blur-[100px] animate-pulse-slow"
+                style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+                <div class="text-center lg:text-left rtl:-scale-x-1 lg:rtl:text-right" dir="auto">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-semibold uppercase tracking-widest mb-6"
+                        data-i18n="next_gen">
+                        <span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                        Next-Gen OS
+                    </div>
+                    <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
+                        <span class="block text-slate-900 dark:text-white mb-2" data-i18n="hero_t1">Enterprise
+                            Omnichannel</span>
+                        <span class="block text-gradient-metallic drop-shadow-lg" data-i18n="hero_t2">AI
+                            Infrastructure</span>
+                    </h1>
+                    <p class="mt-4 text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 mb-8 font-light leading-relaxed"
+                        data-i18n="hero_sub">
+                        Next-Generation Growth Operating System to unify, automate, and scale modern businesses. Elevate
+                        your operations from Omni to Zenith.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a class="px-8 py-4 rounded-full bg-primary text-background-dark font-semibold text-lg hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(0,229,255,0.4)] hover:shadow-[0_0_30px_rgba(0,229,255,0.6)] flex items-center justify-center gap-2 group"
+                            href="#suite">
+                            <span data-i18n="hero_btn1">Build Your Backbone</span>
+                            <span
+                                class="material-icons group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform rtl-flip">arrow_forward</span>
+                        </a>
+                        <a class="px-8 py-4 rounded-full border border-slate-300 dark:border-slate-700 hover:border-primary dark:hover:border-primary text-slate-800 dark:text-white font-medium text-lg hover:bg-primary/5 transition-all duration-300 flex items-center justify-center gap-2"
+                            href="#capabilities" data-i18n="hero_btn2">
+                            Explore Capabilities
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative h-[400px] lg:h-[600px] items-center justify-center animate-float hidden md:flex"
+                    dir="ltr">
+                    <svg class="w-full h-full" preserveAspectRatio="xMidYMid meet" viewBox="0 0 400 600">
+                        <path class="spine-line" d="M200 100 Q 250 200 150 300 T 200 500" fill="none"
+                            stroke="rgba(0, 229, 255, 0.3)" stroke-width="2"></path>
+                        <path class="spine-line" d="M200 100 Q 150 200 250 300 T 200 500" fill="none"
+                            stroke="rgba(41, 98, 255, 0.3)" stroke-width="2" style="animation-delay: 0.5s;"></path>
+                        <path class="spine-line" d="M50 250 Q 200 200 350 250" fill="none"
+                            stroke="rgba(148, 163, 184, 0.2)" stroke-dasharray="5,5" stroke-width="1"></path>
+                        <path class="spine-line" d="M50 350 Q 200 400 350 350" fill="none"
+                            stroke="rgba(148, 163, 184, 0.2)" stroke-dasharray="5,5" stroke-width="1"></path>
+                        <circle class="node-pulse" cx="200" cy="100" fill="#00E5FF" r="15"></circle>
+                        <circle class="node-pulse" cx="200" cy="300" fill="#2962FF" r="25"
+                            style="animation-delay: 0.3s;"></circle>
+                        <circle class="node-pulse" cx="200" cy="500" fill="#00E5FF" r="15"
+                            style="animation-delay: 0.6s;"></circle>
+                        <circle cx="50" cy="250" fill="#94A3B8" r="8"></circle>
+                        <circle cx="350" cy="250" fill="#94A3B8" r="8"></circle>
+                        <circle cx="50" cy="350" fill="#94A3B8" r="8"></circle>
+                        <circle cx="350" cy="350" fill="#94A3B8" r="8"></circle>
+                        <text fill="#fff" font-family="Rajdhani" font-size="12" font-weight="bold" text-anchor="middle"
+                            x="200" y="295" style="direction: ltr;">AI</text>
+                        <text fill="#00E5FF" font-family="Rajdhani" font-size="10" text-anchor="middle" x="200" y="310"
+                            style="direction: ltr;">CORE</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Separator -->
+    <div
+        class="relative py-16 bg-gradient-to-b from-background-light to-slate-50 dark:from-background-dark dark:to-slate-900/50 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent blur-sm">
+            </div>
+        </div>
+
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" dir="auto">
+            <div
+                class="glass-panel rounded-3xl p-8 md:p-10 relative overflow-hidden border border-slate-200 dark:border-slate-700/50 shadow-2xl flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 pointer-events-none"></div>
+                <div class="animated-border"></div>
+
+                <div
+                    class="flex flex-col md:flex-row items-center justify-center gap-6 relative z-10 w-full max-w-4xl mx-auto">
+                    <div class="flex-shrink-0 relative group mb-2 md:mb-0">
+                        <img src="./logo.webp" alt="O2Z AI"
+                            class="h-32 sm:h-40 md:h-48 lg:h-56 w-auto object-contain transform transition-transform duration-500 group-hover:scale-105 drop-shadow-[0_0_20px_rgba(0,229,255,0.4)]" />
+                    </div>
+                    <div class="text-center md:rtl:text-right md:ltr:text-left relative z-10 flex-1">
+                        <h3 class="font-display text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white leading-snug whitespace-pre-wrap typewriter min-h-[3em]"
+                            data-i18n="sep_txt">We don't break platform rules… we excel within them.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section: Services -->
+    <section class="py-24 relative z-10 overflow-hidden" id="suite" dir="ltr">
+        <!-- Marquee structure is easier locked to ltr for sliding, translating text via auto dir -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20" dir="auto">
+            <div class="text-center mb-20 relative">
+                <h2 class="font-display text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 typewriter min-h-[1.5em]"
+                    data-i18n="suite_t" data-typewriter-speed="50">منظومة متكاملة تقود أعمالك من كل زاوية</h2>
+                <p class="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-4xl mx-auto font-medium leading-relaxed mb-4 opacity-80"
+                    data-i18n="suite_sub">من الذكاء الاصطناعي إلى التسويق وقنوات التواصل — كل خدمة هنا جزء من نظام واحد
+                    يعمل بتناغم لزيادة كفاءتك وتسريع نموك.</p>
+            </div>
+        </div>
+
+        <div class="w-full relative mt-4 group/slider" id="suite-slider-wrapper">
+            <!-- Navigation Arrows -->
+            <button onclick="scrollTrack('slider-track', -400)" aria-label="Previous"
+                class="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-14 h-14 items-center justify-center rounded-full bg-slate-900/40 hover:bg-primary text-white hover:text-slate-900 backdrop-blur-md border border-slate-700/50 opacity-0 group-hover/slider:opacity-100 transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] transform -translate-x-full group-hover/slider:translate-x-0 hidden md:flex rtl-flip">
+                <span class="material-icons text-3xl">chevron_left</span>
+            </button>
+            <button onclick="scrollTrack('slider-track', 400)" aria-label="Next"
+                class="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-14 h-14 items-center justify-center rounded-full bg-slate-900/40 hover:bg-primary text-white hover:text-slate-900 backdrop-blur-md border border-slate-700/50 opacity-0 group-hover/slider:opacity-100 transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] transform translate-x-full group-hover/slider:translate-x-0 hidden md:flex rtl-flip">
+                <span class="material-icons text-3xl">chevron_right</span>
+            </button>
+
+            <div id="slider-track"
+                class="js-marquee-track flex overflow-x-auto items-center gap-0 pb-12 pt-4 px-4 sm:px-8 hide-scroll-bar snap-x snap-mandatory"
+                dir="ltr">
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="#infrastructure" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700"></div>
+                                <div class="relative z-10 w-24 h-24 rounded-2xl bg-primary/15 flex items-center justify-center mb-8 text-primary shadow-[0_0_20px_rgba(0,229,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">forum</span>
+                                </div>
+                                <h3 class="font-display text-3xl font-bold text-slate-900 dark:text-white relative z-10" data-i18n="feat_1_t">Unified Communication Hub</h3>
+                            </div>
+                            <div class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.2)] p-8 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none"></div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-6 text-primary relative z-10" data-i18n="feat_1_t">Unified Communication Hub</h3>
+                                <p class="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10" data-i18n="feat_1_d"></p>
+                                <span class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                                    <span data-i18n="learn_more">Explore Solution</span>
+                                    <span class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Service 2: AI Workforce -->
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="#infrastructure" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div class="absolute -top-24 -right-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700"></div>
+                                <div class="relative z-10 w-24 h-24 rounded-2xl bg-secondary/15 flex items-center justify-center mb-8 text-secondary shadow-[0_0_20px_rgba(41,98,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">smart_toy</span>
+                                </div>
+                                <h3 class="font-display text-3xl font-bold text-slate-900 dark:text-white relative z-10" data-i18n="feat_2_t">AI Digital Workforce</h3>
+                            </div>
+                            <div class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.2)] p-8 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-t from-secondary/5 to-transparent pointer-events-none"></div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-6 text-secondary relative z-10" data-i18n="feat_2_t">AI Digital Workforce</h3>
+                                <p class="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10" data-i18n="feat_2_d"></p>
+                                <span class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-secondary/10 text-secondary font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(41,98,255,0.2)]">
+                                    <span data-i18n="learn_more">Explore Solution</span>
+                                    <span class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Service 3: Workflow Automation -->
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="#infrastructure" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700"></div>
+                                <div class="relative z-10 w-24 h-24 rounded-2xl bg-primary/15 flex items-center justify-center mb-8 text-primary shadow-[0_0_20px_rgba(0,229,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">settings_suggest</span>
+                                </div>
+                                <h3 class="font-display text-3xl font-bold text-slate-900 dark:text-white relative z-10" data-i18n="feat_3_t">Workflow Automation</h3>
+                            </div>
+                            <div class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.2)] p-8 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none"></div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-6 text-primary relative z-10" data-i18n="feat_3_t">Workflow Automation</h3>
+                                <p class="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10" data-i18n="feat_3_d"></p>
+                                <span class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                                    <span data-i18n="learn_more">Explore Solution</span>
+                                    <span class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Service 4: WhatsApp Marketing -->
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="#infrastructure" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div class="absolute -top-24 -right-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700"></div>
+                                <div class="relative z-10 w-24 h-24 rounded-2xl bg-secondary/15 flex items-center justify-center mb-8 text-secondary shadow-[0_0_20px_rgba(41,98,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">campaign</span>
+                                </div>
+                                <h3 class="font-display text-3xl font-bold text-slate-900 dark:text-white relative z-10" data-i18n="feat_4_t">WhatsApp Marketing System</h3>
+                            </div>
+                            <div class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(41,98,255,0.2)] p-8 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-t from-secondary/5 to-transparent pointer-events-none"></div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-6 text-secondary relative z-10" data-i18n="feat_4_t">WhatsApp Marketing System</h3>
+                                <p class="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10" data-i18n="feat_4_d"></p>
+                                <span class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-secondary/10 text-secondary font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(41,98,255,0.2)]">
+                                    <span data-i18n="learn_more">Explore Solution</span>
+                                    <span class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Service 5: Data Insights -->
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="#infrastructure" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700"></div>
+                                <div class="relative z-10 w-24 h-24 rounded-2xl bg-primary/15 flex items-center justify-center mb-8 text-primary shadow-[0_0_20px_rgba(0,229,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">trending_up</span>
+                                </div>
+                                <h3 class="font-display text-3xl font-bold text-slate-900 dark:text-white relative z-10" data-i18n="feat_5_t">Data Insights & Growth</h3>
+                            </div>
+                            <div class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.2)] p-8 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none"></div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-6 text-primary relative z-10" data-i18n="feat_5_t">Data Insights & Growth</h3>
+                                <p class="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10" data-i18n="feat_5_d"></p>
+                                <span class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                                    <span data-i18n="learn_more">Explore Solution</span>
+                                    <span class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-primary flex items-center justify-center mb-8 text-background-dark shadow-[0_0_20px_rgba(0,229,255,0.5)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">smart_toy</span>
+                                </div>
+                                <h3 class="font-display text-3xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="s3_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.5)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-6 text-primary relative z-10"
+                                    data-i18n="s3_t">Title</h3>
+                                <p class="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10"
+                                    data-i18n="s3_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(0,229,255,0.5)]">
+                                    <span data-i18n="learn_more">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-secondary/15 flex items-center justify-center mb-8 text-secondary shadow-[0_0_20px_rgba(41,98,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">insights</span>
+                                </div>
+                                <h3 class="font-display text-3xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="s4_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(41,98,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-secondary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white mb-6 text-secondary relative z-10"
+                                    data-i18n="s4_t">Title</h3>
+                                <p class="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10"
+                                    data-i18n="s4_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-secondary/10 text-secondary font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(41,98,255,0.2)]">
+                                    <span data-i18n="learn_more">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div
+                class="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-background-light dark:from-background-dark to-transparent z-20">
+            </div>
+            <div
+                class="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-background-light dark:from-background-dark to-transparent z-20">
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Global AI Infrastructure -->
+    <section class="py-32 relative bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 z-10 overflow-hidden" id="infrastructure">
+        <!-- High-End Background Effects -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(0,229,255,0.05)_0%,transparent_70%)]"></div>
+            <div class="absolute inset-0 opacity-20 dark:opacity-40" style="background-image: radial-gradient(#00e5ff 0.5px, transparent 0.5px); background-size: 30px 30px;"></div>
+            <!-- Glowing Connecting Lines (Simulation) -->
+            <svg class="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00E5FF" stop-opacity="0" />
+                        <stop offset="50%" stop-color="#00E5FF" stop-opacity="1" />
+                        <stop offset="100%" stop-color="#00E5FF" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+                <path d="M0 100 Q 250 50 500 100 T 1000 100" stroke="url(#line-grad)" stroke-width="1" fill="none">
+                    <animate attributeName="d" dur="10s" repeatCount="indefinite" values="M0 100 Q 250 50 500 100 T 1000 100; M0 100 Q 250 150 500 100 T 1000 100; M0 100 Q 250 50 500 100 T 1000 100" />
+                </path>
+                <path d="M-100 300 Q 150 350 400 300 T 900 300" stroke="url(#line-grad)" stroke-width="1" fill="none" style="animation-delay: -2s;">
+                    <animate attributeName="d" dur="12s" repeatCount="indefinite" values="M-100 300 Q 150 350 400 300 T 900 300; M-100 300 Q 150 250 400 300 T 900 300; M-100 300 Q 150 350 400 300 T 900 300" />
+                </path>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" dir="auto">
+            <div class="text-center mb-20">
+                <div class="inline-block px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-bold uppercase tracking-widest mb-6 animate-pulse">
+                    Enterprise Grade Infrastructure
+                </div>
+                <h3 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white mb-8 transition-all duration-700"
+                    data-i18n="clients_t">Global AI Infrastructure</h3>
+                <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
+                    Our platform operates on a massive, highly-available digital core designed for seamless scale across global networks.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-8 perspective-2000" dir="ltr">
+                <!-- Row 1: 3 Cards -->
+                <!-- Node 1 -->
+                <div class="md:col-span-2 group relative py-8 px-6 rounded-3xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200/50 dark:border-white/5 shadow-xl hover:shadow-primary/20 transition-all duration-500 hover:-translate-y-2 hover:rotate-x-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-900 dark:bg-slate-800 flex items-center justify-center mb-6 shadow-lg group-hover:bg-primary transition-colors duration-500">
+                             <span class="material-icons text-4xl text-primary group-hover:text-white">forum</span>
+                        </div>
+                        <h4 class="font-display text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-4 transition-transform group-hover:scale-105" data-i18n="feat_1_t">Unified Communication Hub</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500" data-i18n="feat_1_d"></p>
+                        <div class="h-1 w-12 bg-primary/30 rounded-full group-hover:w-24 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Node 2 -->
+                <div class="md:col-span-2 group relative py-8 px-6 rounded-3xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200/50 dark:border-white/5 shadow-xl hover:shadow-secondary/20 transition-all duration-500 hover:-translate-y-2 hover:rotate-x-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-900 dark:bg-slate-800 flex items-center justify-center mb-6 shadow-lg group-hover:bg-secondary transition-colors duration-500">
+                             <span class="material-icons text-4xl text-secondary group-hover:text-white">smart_toy</span>
+                        </div>
+                        <h4 class="font-display text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-4 transition-transform group-hover:scale-105" data-i18n="feat_2_t">AI Digital Workforce</h4>
+                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500" data-i18n="feat_2_d"></p>
+                        <div class="h-1 w-12 bg-secondary/30 rounded-full group-hover:w-24 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Node 3 -->
+                <div class="md:col-span-2 group relative py-8 px-6 rounded-3xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200/50 dark:border-white/5 shadow-xl hover:shadow-primary/20 transition-all duration-500 hover:-translate-y-2 hover:rotate-x-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-900 dark:bg-slate-800 flex items-center justify-center mb-6 shadow-lg group-hover:bg-primary transition-colors duration-500">
+                             <span class="material-icons text-4xl text-primary group-hover:text-white">settings_suggest</span>
+                        </div>
+                        <h4 class="font-display text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-4 transition-transform group-hover:scale-105" data-i18n="feat_3_t">Workflow Automation</h4>
+                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500" data-i18n="feat_3_d"></p>
+                        <div class="h-1 w-12 bg-primary/30 rounded-full group-hover:w-24 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Row 2: 2 Cards centered -->
+                <!-- Node 4 -->
+                <div class="md:col-start-2 md:col-span-2 group relative py-8 px-6 rounded-3xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200/50 dark:border-white/5 shadow-xl hover:shadow-secondary/20 transition-all duration-500 hover:-translate-y-2 hover:rotate-x-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-secondary/10 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-900 dark:bg-slate-800 flex items-center justify-center mb-6 shadow-lg group-hover:bg-secondary transition-colors duration-500">
+                             <span class="material-icons text-4xl text-secondary group-hover:text-white">campaign</span>
+                        </div>
+                        <h4 class="font-display text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-4 transition-transform group-hover:scale-105" data-i18n="feat_4_t">WhatsApp Marketing System</h4>
+                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500" data-i18n="feat_4_d"></p>
+                        <div class="h-1 w-12 bg-secondary/30 rounded-full group-hover:w-24 transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Node 5 -->
+                <div class="md:col-start-4 md:col-span-2 group relative py-8 px-6 rounded-3xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border border-slate-200/50 dark:border-white/5 shadow-xl hover:shadow-primary/20 transition-all duration-500 hover:-translate-y-2 hover:rotate-x-2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-900 dark:bg-slate-800 flex items-center justify-center mb-6 shadow-lg group-hover:bg-primary transition-colors duration-500">
+                             <span class="material-icons text-4xl text-primary group-hover:text-white">trending_up</span>
+                        </div>
+                        <h4 class="font-display text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-4 transition-transform group-hover:scale-105" data-i18n="feat_5_t">Data Insights & Growth</h4>
+                         <p class="text-sm text-slate-600 dark:text-slate-400 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500" data-i18n="feat_5_d"></p>
+                        <div class="h-1 w-12 bg-primary/30 rounded-full group-hover:w-24 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Capabilities -->
+    <section class="py-24 bg-slate-50 dark:bg-slate-900/50 relative overflow-hidden" id="capabilities" dir="ltr">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20" dir="auto">
+            <div class="text-center mb-20 relative">
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6"
+                    data-i18n="cap_t">Built for Unprecedented <span class="text-gradient-metallic">Scale</span></h2>
+                <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-light" data-i18n="cap_sub">
+                    Our centralized AI infrastructure connects disparate systems, analyzes complex data streams in
+                    real-time, and automates responses across all channels.</p>
+            </div>
+        </div>
+
+        <div class="w-full relative mt-4 group/slider-cap" id="capabilities-slider-wrapper">
+            <!-- Navigation -->
+            <button onclick="scrollTrack('capabilities-track', -400)" aria-label="Previous"
+                class="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-14 h-14 items-center justify-center rounded-full bg-slate-900/40 hover:bg-secondary text-white hover:text-white backdrop-blur-md border border-slate-700/50 opacity-0 group-hover/slider-cap:opacity-100 transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] transform -translate-x-full group-hover/slider-cap:translate-x-0 hidden md:flex rtl-flip">
+                <span class="material-icons text-3xl">chevron_left</span>
+            </button>
+            <button onclick="scrollTrack('capabilities-track', 400)" aria-label="Next"
+                class="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-14 h-14 items-center justify-center rounded-full bg-slate-900/40 hover:bg-secondary text-white hover:text-white backdrop-blur-md border border-slate-700/50 opacity-0 group-hover/slider-cap:opacity-100 transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)] transform translate-x-full group-hover/slider-cap:translate-x-0 hidden md:flex rtl-flip">
+                <span class="material-icons text-3xl">chevron_right</span>
+            </button>
+
+            <div id="capabilities-track"
+                class="js-marquee-track flex overflow-x-auto items-center gap-0 pb-12 pt-4 px-4 sm:px-8 hide-scroll-bar snap-x snap-mandatory"
+                dir="ltr">
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="javascript:void(0)" class="group perspective-1000 cursor-default h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-primary/15 flex items-center justify-center mb-8 text-primary shadow-[0_0_20px_rgba(0,229,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">hub</span>
+                                </div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="c1_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6 text-primary relative z-10"
+                                    data-i18n="c1_t">Title</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10 whitespace-pre-line"
+                                    data-i18n="c1_d">description.</p>
+
+                                <span class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/50 text-white font-bold shadow-[0_0_25px_rgba(0,229,255,0.5)] animate-pulse backdrop-blur-md overflow-hidden before:absolute before:inset-0 before:bg-white/20 before:-translate-x-full hover:before:animate-[shimmer_1.5s_infinite]">
+                                    <span class="relative z-10" data-i18n="soon">SOON ✨</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-secondary/15 flex items-center justify-center mb-8 text-secondary shadow-[0_0_20px_rgba(41,98,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">smart_toy</span>
+                                </div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="c2_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(41,98,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-secondary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6 text-secondary relative z-10"
+                                    data-i18n="c2_t">Title</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10 whitespace-pre-line"
+                                    data-i18n="c2_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-secondary/10 text-secondary font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(41,98,255,0.2)]">
+                                    <span data-i18n="contact_now">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-primary/15 flex items-center justify-center mb-8 text-primary shadow-[0_0_20px_rgba(0,229,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">analytics</span>
+                                </div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="c3_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6 text-primary relative z-10"
+                                    data-i18n="c3_t">Title</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10 whitespace-pre-line"
+                                    data-i18n="c3_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                                    <span data-i18n="contact_now">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-secondary/15 flex items-center justify-center mb-8 text-secondary shadow-[0_0_20px_rgba(41,98,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">av_timer</span>
+                                </div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="c4_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(41,98,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-secondary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6 text-secondary relative z-10"
+                                    data-i18n="c4_t">Title</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10 whitespace-pre-line"
+                                    data-i18n="c4_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-secondary/10 text-secondary font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(41,98,255,0.2)]">
+                                    <span data-i18n="contact_now">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-primary/15 flex items-center justify-center mb-8 text-primary shadow-[0_0_20px_rgba(0,229,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">trending_up</span>
+                                </div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="c5_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6 text-primary relative z-10"
+                                    data-i18n="c5_t">Title</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10 whitespace-pre-line"
+                                    data-i18n="c5_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                                    <span data-i18n="contact_now">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-secondary/15 flex items-center justify-center mb-8 text-secondary shadow-[0_0_20px_rgba(41,98,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">share</span>
+                                </div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="c6_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(41,98,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-secondary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6 text-secondary relative z-10"
+                                    data-i18n="c6_t">Title</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10 whitespace-pre-line"
+                                    data-i18n="c6_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-secondary/10 text-secondary font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(41,98,255,0.2)]">
+                                    <span data-i18n="contact_now">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-primary/15 flex items-center justify-center mb-8 text-primary shadow-[0_0_20px_rgba(0,229,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">support_agent</span>
+                                </div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="c7_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6 text-primary relative z-10"
+                                    data-i18n="c7_t">Title</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10 whitespace-pre-line"
+                                    data-i18n="c7_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                                    <span data-i18n="contact_now">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl group-hover:bg-secondary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-secondary/15 flex items-center justify-center mb-8 text-secondary shadow-[0_0_20px_rgba(41,98,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">integration_instructions</span>
+                                </div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="c8_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(41,98,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-secondary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6 text-secondary relative z-10"
+                                    data-i18n="c8_t">Title</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10 whitespace-pre-line"
+                                    data-i18n="c8_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-secondary/10 text-secondary font-semibold hover:bg-secondary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(41,98,255,0.2)]">
+                                    <span data-i18n="contact_now">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="flex-none w-[320px] sm:w-[380px] px-3">
+                    <a href="https://wa.me/962797979760" target="_blank" class="group perspective-1000 h-[420px] block w-full">
+                        <div class="flip-card-inner">
+                            <!-- Front -->
+                            <div
+                                class="flip-card-front glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-gradient-to-br from-surface-light via-slate-50 to-slate-100 dark:from-surface-dark dark:via-[#111827] dark:to-[#0B1120] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-8 relative overflow-hidden">
+                                <div class="animated-border"></div>
+                                <div
+                                    class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+                                <div
+                                    class="absolute -bottom-24 -left-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors duration-700">
+                                </div>
+
+                                <div
+                                    class="relative z-10 w-24 h-24 rounded-2xl bg-primary/15 flex items-center justify-center mb-8 text-primary shadow-[0_0_20px_rgba(0,229,255,0.2)] group-hover:-translate-y-2 transition-transform duration-500">
+                                    <div class="icon-glow rounded-2xl"></div>
+                                    <span
+                                        class="material-icons text-6xl relative z-10 group-hover:scale-110 transition-transform duration-500">dashboard_customize</span>
+                                </div>
+                                <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white relative z-10"
+                                    data-i18n="c9_t">Title</h3>
+
+                            </div>
+
+                            <!-- Back -->
+                            <div
+                                class="flip-card-back glass-panel rounded-[2rem] flex flex-col justify-center items-center text-center bg-slate-50 dark:bg-slate-900 shadow-[0_0_40px_rgba(0,229,255,0.2)] p-8 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none">
+                                </div>
+                                <div class="animated-border opacity-50 group-hover:opacity-100"></div>
+                                <h3 class="font-display text-xl font-bold text-slate-900 dark:text-white mb-6 text-primary relative z-10"
+                                    data-i18n="c9_t">Title</h3>
+                                <p class="text-sm text-slate-600 dark:text-slate-300 font-medium leading-relaxed mb-8 relative z-10 whitespace-pre-line"
+                                    data-i18n="c9_d">description.</p>
+
+                                <span
+                                    class="mt-auto relative z-10 inline-flex items-center px-8 py-3.5 rounded-full bg-primary/10 text-primary font-semibold hover:bg-primary hover:text-white transition-all duration-300 transform group-hover:scale-105 shadow-[0_0_15px_rgba(0,229,255,0.2)]">
+                                    <span data-i18n="contact_now">Learn More</span>
+                                    <span
+                                        class="material-icons text-[18px] ml-2 rtl:mr-2 rtl:ml-0 rtl-flip">arrow_forward</span>
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div
+                class="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-slate-50 dark:from-[rgba(15,23,42,0.5)] to-transparent z-20">
+            </div>
+            <div
+                class="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-slate-50 dark:from-[rgba(15,23,42,0.5)] to-transparent z-20">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 pt-16 pb-8 border-t-primary/20"
+        dir="auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
+                <!-- Branding & Social Column -->
+                <div class="col-span-1 md:col-span-4 lg:col-span-5 pr-0 md:pr-8 rtl:pr-0 rtl:pl-8 flex flex-col items-start">
+                    <a class="inline-flex items-center gap-2 mb-4 w-fit" href="#" dir="ltr">
+                        <span class="font-display font-bold text-3xl tracking-tight text-slate-900 dark:text-white">O2Z<span class="text-primary">.AI</span></span>
+                    </a>
+                    <p class="text-base text-slate-500 dark:text-slate-400 mb-8 leading-relaxed max-w-sm" data-i18n="ft_d">
+                        The Omnichannel AI Growth Operating System powering modern enterprise infrastructure.
+                    </p>
+                    
+                    <!-- Contact Email -->
+                    <a href="mailto:INFO@O2Z.AI" class="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-primary/50 text-slate-600 dark:text-slate-300 hover:text-primary transition-all duration-300 mb-8 group shadow-sm hover:shadow-md">
+                        <span class="material-icons text-primary/80 group-hover:scale-110 transition-transform">mail</span>
+                        <span class="font-semibold tracking-wide">INFO@O2Z.AI</span>
+                    </a>
+
+                    <!-- Social Icons -->
+                    <div class="flex gap-4">
+                        <!-- WhatsApp -->
+                        <a href="https://wa.me/962797979760" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#25D366]/30">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        </a>
+                        <!-- Facebook -->
+                        <a href="javascript:void(0)" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#1877F2]/30">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <!-- Instagram -->
+                        <a href="javascript:void(0)" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-[#E4405F] hover:text-white hover:border-[#E4405F] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#E4405F]/30">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.20 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <!-- LinkedIn -->
+                        <a href="javascript:void(0)" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-400 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#0A66C2]/30">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Services Column -->
+                <div class="col-span-1 md:col-span-3 lg:col-span-3">
+                    <h4 class="font-semibold text-slate-900 dark:text-white mb-6 text-lg" data-i18n="ft_s_t">Services</h4>
+                    <ul class="space-y-4 text-sm text-slate-500 dark:text-slate-400">
+                        <li><a class="hover:text-primary transition-colors flex items-center gap-2 group" href="#infrastructure">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors"></span>
+                                <span data-i18n="s1_t">Unified Communication Hub</span>
+                            </a></li>
+                        <li><a class="hover:text-primary transition-colors flex items-center gap-2 group" href="#infrastructure">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors"></span>
+                                <span data-i18n="s2_t">AI Digital Workforce</span>
+                            </a></li>
+                        <li><a class="hover:text-primary transition-colors flex items-center gap-2 group" href="#infrastructure">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors"></span>
+                                <span data-i18n="s3_t">Workflow Automation</span>
+                            </a></li>
+                        <li><a class="hover:text-primary transition-colors flex items-center gap-2 group" href="#infrastructure">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors"></span>
+                                <span data-i18n="s4_t">WhatsApp Marketing System</span>
+                            </a></li>
+                        <li><a class="hover:text-primary transition-colors flex items-center gap-2 group" href="#infrastructure">
+                                <span class="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors"></span>
+                                <span data-i18n="s5_t">Data Insights & Growth</span>
+                            </a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Column -->
+                <div class="col-span-1 md:col-span-2 lg:col-span-2">
+                    <h4 class="font-semibold text-slate-900 dark:text-white mb-6 text-lg" data-i18n="ft_c_t">Company</h4>
+                    <ul class="space-y-4 text-sm text-slate-500 dark:text-slate-400">
+                        <li><a class="hover:text-primary transition-colors group flex items-center cursor-pointer" onclick="openContentModal('about')"><span class="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" data-i18n="ft_c1">About Us</span></a></li>
+                        <li><a class="hover:text-primary transition-colors group flex items-center cursor-pointer" onclick="openContentModal('careers')"><span class="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" data-i18n="ft_c2">Careers</span></a></li>
+                        <li><a class="hover:text-primary transition-colors group flex items-center cursor-pointer" onclick="openContentModal('partners')"><span class="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" data-i18n="ft_c3">Partners</span></a></li>
+                        <li><a class="hover:text-primary transition-colors group flex items-center cursor-pointer" onclick="openContentModal('contact')"><span class="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" data-i18n="ft_c4">Contact</span></a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div class="col-span-1 md:col-span-3 lg:col-span-2">
+                    <h4 class="font-semibold text-slate-900 dark:text-white mb-6 text-lg" data-i18n="ft_l_t">Legal</h4>
+                    <ul class="space-y-4 text-sm text-slate-500 dark:text-slate-400">
+                        <li><a class="hover:text-primary transition-colors group flex items-center cursor-pointer" onclick="openContentModal('privacy')"><span class="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" data-i18n="ft_l1">Privacy Policy</span></a></li>
+                        <li><a class="hover:text-primary transition-colors group flex items-center cursor-pointer" onclick="openContentModal('terms')"><span class="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" data-i18n="ft_l2">Terms of Service</span></a></li>
+                        <li><a class="hover:text-primary transition-colors group flex items-center cursor-pointer" onclick="openContentModal('security')"><span class="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" data-i18n="ft_l3">Security</span></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+
+            <div
+                class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-slate-500 dark:text-slate-400" data-i18n="copyr">
+                    © 2026 O2Z.AI. All rights reserved.
+                </p>
+                <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                    <span data-i18n="sys_stat">System Status:</span>
+                    <span class="flex items-center gap-1 text-primary"><span
+                            class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> <span
+                            data-i18n="sys_op">Operational</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Modal -->
+        <div id="contentModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeContentModal()"></div>
+            <div class="relative bg-white dark:bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 transform scale-95 opacity-0 transition-all duration-300 mx-auto max-h-[90vh] overflow-y-auto" id="contentModalPanel">
+                <button onclick="closeContentModal()" class="absolute top-4 right-4 rtl:right-auto rtl:left-4 z-10 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center justify-center w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700">
+                    <span class="material-icons text-xl">close</span>
+                </button>
+                <div class="p-8 md:p-10 relative z-10 bg-white dark:bg-slate-900 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+                        <span class="material-icons text-primary w-6 h-6 flex justify-center items-center">subject</span>
+                    </div>
+                    <h3 id="contentModalTitle" class="font-display font-bold text-2xl md:text-3xl text-slate-900 dark:text-white mb-6"></h3>
+                    <div id="contentModalBody" class="prose prose-slate dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 leading-relaxed text-base">
+                    </div>
+                </div>
+                <div class="absolute -z-10 inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-primary/5 rounded-2xl blur-xl"></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            "en": {
+                nav_suite: "Services",
+                nav_cap: "Capabilities",
+                nav_start: "Start Now",
+                next_gen: "<span class='w-2 h-2 rounded-full bg-primary animate-ping'></span> Next-Gen OS",
+                hero_t1: "Enterprise Omnichannel",
+                hero_t2: "AI Infrastructure",
+                hero_sub: "Next-Generation Growth Operating System to unify, automate, and scale modern businesses. Elevate your operations from Omni to Zenith.",
+                hero_btn1: "Build Your Backbone",
+                hero_btn2: "Explore Capabilities",
+                sep_bg: "FROM OMNI TO ZENITH",
+                sep_txt: "We don't break platform rules… we excel within them.",
+                suite_t: "Integrated Ecosystem Driving Your Business From Every Angle",
+                suite_sub: "From AI to marketing and communications — every service here is part of one unified system working in harmony to boost efficiency and accelerate growth.",
+                s1_t: "Unified Communication Hub",
+                s1_d: "Connect WhatsApp, Instagram, and Facebook in one place to ensure instant responses.",
+                s2_t: "AI Digital Workforce",
+                s2_d: "Intelligent bots that converse with human-like natural language and close sales 24/7.",
+                s3_t: "Workflow Automation",
+                s3_d: "Automate invoicing, appointments, and logistics tracking to eliminate manual overhead.",
+                s4_t: "WhatsApp Marketing System",
+                s4_d: "Broadcast thousands of targeted messages with one click backed by deep analytics.",
+                s5_t: "Data Insights & Growth",
+                s5_d: "Smart dashboards showing customer origin and actionable insights to double your sales.",
+                s6_t: "Professional Design & Video Editing",
+                s6_d: "Generate captivating visuals and professional montages with high-end creative precision.",
+                clients_t: "Strategic Digital Solutions",
+                feat_1_t: "Unified Communication Hub",
+                feat_1_d: "Connect WhatsApp, Instagram, and Facebook in one place to ensure instant responses and zero lost leads.",
+                feat_2_t: "AI Digital Workforce",
+                feat_2_d: "Intelligent bots that converse with human-like natural language and close sales 24/7.",
+                feat_3_t: "Workflow Automation",
+                feat_3_d: "Automate invoicing, appointments, and logistics tracking to eliminate manual overhead.",
+                feat_4_t: "WhatsApp Marketing Engine",
+                feat_4_d: "Broadcast thousands of targeted messages with one click backed by deep performance analytics.",
+                feat_5_t: "Growth Data Analytics",
+                feat_5_d: "Smart dashboards showing customer origin and actionable insights to double your sales.",
+                learn_more: "Book Service Now",
+                contact_now: "Contact Us Now",
+                soon: "SOON ✨",
+                cap_t: "Built for Unprecedented <span class='text-gradient-metallic'>Scale</span>",
+                cap_sub: "Our centralized AI infrastructure connects disparate systems, analyzes complex data streams in real-time, and automates responses across all channels.",
+                c1_t: "Omnichannel AI Core",
+                c1_d: "• Unified communication channels\n• Shared universal inbox\n• Context-aware AI across all touchpoints",
+                c2_t: "AI Automation Engine",
+                c2_d: "• Smart Auto-replies (AI Agents)\n• Low-Code Workflow Automation\n• Automated Sales & Support routes",
+                c3_t: "Data Intelligence & CDP",
+                c3_d: "• Unify Customer 360 Profiles\n• Centralized CRM, Ads & Social Data\n• Predictive Analytics & Scoring",
+                c4_t: "Real-Time Analytics",
+                c4_d: "• Live operational dashboards\n• Full multi-touch attribution\n• Pre-built KPIs & Custom metrics",
+                c5_t: "Growth & Funnel Engine",
+                c5_d: "• Automated A/B Testing\n• AI-driven Conversion Optimization\n• Advanced Retargeting flows",
+                c6_t: "Social & Content Engine",
+                c6_d: "• Unified social media management\n• Automated Scheduling & Publishing\n• Generative AI for content ideas",
+                c7_t: "CRM & Customer Journey",
+                c7_d: "• Comprehensive integrated CRM\n• Smart Sales Pipelines\n• Customer interaction tracking",
+                c8_t: "Integrations Layer",
+                c8_d: "• WhatsApp API & Social Ads\n• Google Ads & Payment Gateways\n• ERP integrations & Open API",
+                c9_t: "Modular System",
+                c9_d: "• Highly customizable architecture\n• Independent Marketing, Sales, Support & Data modules",
+                ft_d: "The Omnichannel AI Growth Operating System powering modern enterprise infrastructure.",
+                ft_s_t: "Services",
+                ft_c_t: "Company",
+                ft_c1: "About Us",
+                ft_c2: "Careers",
+                ft_c3: "Partners",
+                ft_c4: "Contact",
+                ft_l_t: "Legal",
+                ft_l1: "Privacy Policy",
+                ft_l2: "Terms of Service",
+                ft_l3: "Security",
+                copyr: "© 2026 O2Z.AI. All rights reserved.",
+                sys_stat: "System Status:",
+                sys_op: "Operational"
+            },
+            "ar": {
+                nav_suite: "الخدمات",
+                nav_cap: "الإمكانيات",
+                nav_start: "ابدأ انطلاقتك",
+                next_gen: "<span class='w-2 h-2 rounded-full bg-primary animate-ping rtl-flip'></span> نظام الجيل القادم",
+                hero_t1: "من الشمولية...",
+                hero_t2: "إلى القمّة",
+                hero_sub: "O2Z هي بنية ذكاء اصطناعي موحّدة تجمع السوشال ميديا، الأتمتة، الواتساب، التسويق، والتصميم ضمن نظام ذكي واحد يقود التشغيل، يعزّز الكفاءة، ويُسرّع نمو الأعمال.",
+                hero_btn1: "اكتشف خدماتنا",
+                hero_btn2: "تعرف على الإمكانيات",
+                sep_bg: "من الشمولية للقمة",
+                sep_txt: "لا نكسر قوانين المنصات… بل نتفوق داخلها.",
+                suite_t: "منظومة متكاملة تقود أعمالك من كل زاوية",
+                suite_sub: "من الذكاء الاصطناعي إلى التسويق وقنوات التواصل — كل خدمة هنا جزء من نظام واحد يعمل بتناغم لزيادة كفاءتك وتسريع نموك.",
+                s1_t: "مركز المحادثات الموحد",
+                s1_d: "اربط واتساب، إنستغرام، وفيسبوك في مكان واحد لضمان سرعة الرد وعدم ضياع أي عميل.",
+                s2_t: "موظف الذكاء الاصطناعي",
+                s2_d: "بوتات ذكية ترد بلهجة بشرية وتغلق المبيعات نيابة عنك على مدار 24 ساعة.",
+                s3_t: "أتمتة العمليات (Workflow)",
+                s3_d: "وداعاً للمهام اليدوية؛ نحن نؤتمت الفواتير، المواعيد، وتتبع الطلبات بشكل كامل.",
+                s4_t: "نظام حملات الواتساب",
+                s4_d: "أرسل آلاف الرسائل المستهدفة لعملائك بنقرة واحدة مع تقارير أداء دقيقة.",
+                s5_t: "تحليل ونمو البيانات",
+                s5_d: "لوحة تحكم ذكية تخبرك من أين يأتي عملاؤك وكيف تضاعف مبيعاتك بناءً على الأرقام.",
+                s6_t: "خدمات التصميم والمونتاج الاحترافي",
+                s6_d: "إنشاء تصاميم إبداعية وفيديوهات مونتاج احترافية مخصصة لتعزيز هوية علامتك التجارية.",
+                clients_t: "حلولنا الرقمية الاستراتيجية",
+                feat_1_t: "مركز المحادثات الموحد",
+                feat_1_d: "اربط واتساب، إنستغرام، وفيسبوك في مكان واحد لضمان سرعة الرد وعدم ضياع أي عميل.",
+                feat_2_t: "موظف الذكاء الاصطناعي",
+                feat_2_d: "بوتات ذكية ترد بلهجة بشرية وتغلق المبيعات نيابة عنك على مدار 24 ساعة.",
+                feat_3_t: "أتمتة العمليات (Workflow)",
+                feat_3_d: "وداعاً للمهام اليدوية؛ نحن نؤتمت الفواتير، المواعيد، وتتبع الطلبات بشكل كامل.",
+                feat_4_t: "نظام حملات الواتساب",
+                feat_4_d: "أرسل آلاف الرسائل المستهدفة لعملائك بنقرة واحدة مع تقارير أداء دقيقة.",
+                feat_5_t: "تحليل ونمو البيانات",
+                feat_5_d: "لوحة تحكم ذكية تخبرك من أين يأتي عملاؤك وكيف تضاعف مبيعاتك بناءً على الأرقام.",
+                learn_more: "احجز الخدمة الان",
+                contact_now: "تواصل معنا الان",
+                soon: "قريباً ✨",
+                cap_t: "مبني لمستويات <span class='text-gradient-metallic'>غير مسبوقة</span> من التوسع",
+                cap_sub: "بنية الذكاء الاصطناعي المركزية لدينا تربط الأنظمة المتباينة، تحلل البيانات المعقدة لحظياً، وتؤتمت الاستجابات عبر كافة القنوات.",
+                c1_t: "النواة الذكية الشاملة (Omnichannel)",
+                c1_d: "• توحيد جميع قنوات التواصل<br/>• صندوق وارد (Inbox) موحد لكل المحادثات<br/>• ذكاء اصطناعي يفهم العميل عبر كل القنوات",
+                c2_t: "محرك الأتمتة الذكي",
+                c2_d: "• ردود تلقائية ذكية (مساعدين آليين)<br/>• أتمتة العمليات (بدون الحاجة لكتابة كود)<br/>• مسارات مخصصة للمبيعات وخدمة العملاء",
+                c3_t: "ذكاء البيانات وملفات العملاء",
+                c3_d: "• بناء ملف شامل للعميل (360 درجة)<br/>• تجميع البيانات من كافة المصادر<br/>• تحليلات تنبؤية للقرارات الذكية",
+                c4_t: "التحليلات والبيانات اللحظية",
+                c4_d: "• لوحات تحكم (Dashboards) حية للعمليات<br/>• تتبع مسار العميل من أول تفاعل حتى الشراء<br/>• مقاييس ومؤشرات أداء جاهزة وقابلة للتخصيص",
+                c5_t: "محرك النمو ومسارات البيع",
+                c5_d: "• بناء مسارات بيع (Funnels) متكاملة<br/>• اختبارات (A/B) مؤتمتة لتحسين الأداء<br/>• تحسين معدلات التحويل وإعادة الاستهداف تلقائياً",
+                c6_t: "إدارة المحتوى ومنصات التواصل",
+                c6_d: "• إدارة وحفظ ونشر المحتوى في مكان واحد<br/>• جدولة وتخطيط دقيق للنشر<br/>• ذكاء اصطناعي لابتكار وكتابة محتوى إبداعي",
+                c7_t: "إدارة علاقات العملاء (CRM)",
+                c7_d: "• نظام CRM متكامل ومباشر<br/>• إدارة ذكية لخطوط المبيعات<br/>• تتبع تفصيلي لدورة رحلة العميل منذ بدايتها",
+                c8_t: "طبقة الربط والتكامل المفتوح",
+                c8_d: "• ربط مباشر مع منصات الواتساب والإعلانات<br/>• ارتباط سلس ببوابات الدفع وأنظمة الشركة (ERP)<br/>• واجهة (API) مفتوحة للتكامل اللامحدود",
+                c9_t: "نظام هيكلي مرن وقابل للتخصيص",
+                c9_d: "• بيئة قابلة للتخصيص بالكامل لتناسب عملك<br/>• وحدات مستقلة للتسويق، المبيعات، ومراقبة البيانات<br/>• تبني الشركة نظامها وفق احتياجها الحقيقي",
+                ft_d: "نظام تشغيل النمو والتواصل الموحد الذكي الذي يُشغّل البنية التحتية للمؤسسات الحديثة.",
+                ft_s_t: "الخدمات",
+                ft_c_t: "الشركة",
+                ft_c1: "عن الشركة",
+                ft_c2: "الوظائف والمستقبل",
+                ft_c3: "الشركاء",
+                ft_c4: "تواصل معنا",
+                ft_l_t: "البيانات القانونية",
+                ft_l1: "سياسة الخصوصية",
+                ft_l2: "شروط الخدمة",
+                ft_l3: "الأمان",
+                copyr: "© 2026 O2Z.AI. جميع الحقوق محفوظة.",
+                sys_stat: "حالة النظام:",
+                sys_op: "يعمل بكفاءة"
+            }
+        };
+
+        let currentLang = 'en';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+
+            // Update document direction and lang
+            document.documentElement.dir = currentLang === 'en' ? 'ltr' : 'rtl';
+            document.documentElement.lang = currentLang;
+
+            // Button label update
+            document.getElementById('langLabel').textContent = currentLang === 'en' ? 'عربي' : 'EN';
+            document.getElementById('langLabelMobile').textContent = currentLang === 'en' ? 'عربي' : 'EN';
+
+            // Update all text fields
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    if (el.classList.contains('typewriter') && el.dataset.typed === 'true') {
+                        typeEffect(el, translations[currentLang][key]);
+                    } else if (!el.classList.contains('typewriter')) {
+                        el.innerHTML = translations[currentLang][key];
+                    }
+                }
+            });
+        }
+
+        // Typewriter Effect logic with 8-second cycle
+        function typeEffect(element, text) {
+            // Clear existing intervals
+            if (element.typeInterval) clearInterval(element.typeInterval);
+            if (element.loopTimeout) clearTimeout(element.loopTimeout);
+
+            const textNode = document.createTextNode('');
+            const cursor = document.createElement('span');
+            cursor.className = 'inline-block w-[3px] h-[1em] bg-primary align-middle animate-pulse ml-1 rtl:mr-1 rtl:ml-0';
+
+            function startTyping(currentText) {
+                element.innerHTML = '';
+                element.appendChild(textNode);
+                element.appendChild(cursor);
+                textNode.nodeValue = '';
+                let i = 0;
+
+                element.typeInterval = setInterval(() => {
+                    if (i < currentText.length) {
+                        textNode.nodeValue += currentText.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(element.typeInterval);
+                        // Schedule next cycle after the remainder of 8 seconds
+                        element.loopTimeout = setTimeout(() => {
+                            const latestText = translations[currentLang][element.getAttribute('data-i18n')] || currentText;
+                            startTyping(latestText);
+                        }, 8000);
+                    }
+                }, 50);
+            }
+
+            startTyping(text);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        if (!el.dataset.typed) {
+                            el.dataset.typed = 'true';
+                            const key = el.getAttribute('data-i18n');
+                            const text = translations[currentLang][key] || el.textContent.trim();
+                            typeEffect(el, text);
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+            document.querySelectorAll('.typewriter').forEach(el => {
+                el.innerHTML = '';
+                observer.observe(el);
+            });
+        });
+
+        let autoScrollSpeed = 1.0;
+
+        function scrollTrack(trackId, amount) {
+            const track = document.getElementById(trackId);
+            if (track) {
+                track.scrollBy({ left: amount, behavior: 'smooth' });
+            }
+        }
+
+        // Initialize Auto-Marquee natively via JS for scrollLeft
+        document.addEventListener("DOMContentLoaded", () => {
+            const jsTracks = document.querySelectorAll('.js-marquee-track');
+            jsTracks.forEach(track => {
+                // Duplicate the items for JS infinite scrolling effect
+                track.innerHTML += track.innerHTML;
+
+                let state = true;
+                const wrapper = track.parentElement;
+                if (wrapper) {
+                    wrapper.addEventListener('mouseenter', () => state = false);
+                    wrapper.addEventListener('mouseleave', () => state = true);
+
+                    // Add touch support pause
+                    wrapper.addEventListener('touchstart', () => state = false);
+                    wrapper.addEventListener('touchend', () => { setTimeout(() => state = true, 3000) });
+                }
+
+                function autoScrollStep() {
+                    if (state && track) {
+                        // Arabic logic reverse
+                        if (document.documentElement.dir === 'rtl') {
+                            track.scrollLeft -= autoScrollSpeed;
+                            if (track.scrollLeft <= 0) {
+                                track.scrollLeft = track.scrollWidth / 2;
+                            }
+                        } else {
+                            track.scrollLeft += autoScrollSpeed;
+                            // Loop gracefully
+                            if (track.scrollLeft >= track.scrollWidth / 2) {
+                                track.scrollLeft = 0;
+                            }
+                        }
+                    }
+                    requestAnimationFrame(autoScrollStep);
+                }
+                // Start
+                requestAnimationFrame(autoScrollStep);
+            });
+
+            // Initialize correct text language instantly for templates
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+        });
+
+        // Content Modal Data
+        const modalContent = {
+            "about": {
+                en: { title: "About O2Z", body: "O2Z is an advanced Omnichannel AI infrastructure designed to unify communication channels, automate operations, and enable scalable, data-driven growth.<br><br>We provide an integrated ecosystem combining CRM, marketing automation, analytics, and customer engagement in one intelligent platform." },
+                ar: { title: "عن الشركة", body: "O2Z هي منصة بنية تحتية متقدمة للـ Omnichannel مدعومة بالذكاء الاصطناعي، تمكّن الشركات من توحيد قنوات التواصل، أتمتة العمليات، وتحقيق نمو قابل للقياس.<br><br>نوفّر نظامًا متكاملاً يجمع بين إدارة العملاء (CRM)، التسويق، التحليلات، والأتمتة ضمن بيئة واحدة ذكية وقابلة للتوسع." }
+            },
+            "careers": {
+                en: { title: "Careers & Future", body: "At O2Z, we are building the future of digital business through AI and automation.<br><br>We are always looking for ambitious talent to join our team and work on impactful, cutting-edge solutions.<br><br>📩 <a href='mailto:careers@o2z.ai' dir='ltr' class='text-primary inline-block font-semibold hover:underline'>careers@o2z.ai</a><br><br><div class='mt-4 pt-4 border-t border-slate-200 dark:border-slate-800'><a href='https://wa.me/962797979760' target='_blank' class='inline-flex w-fit items-center gap-2 px-5 py-2 rounded-xl bg-[#25D366] text-white font-medium hover:bg-[#1ebd5a] transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#25D366]/30'><svg class='w-4 h-4 fill-current' viewBox='0 0 24 24'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z'/></svg> Message HR</a></div>" },
+                ar: { title: "الوظائف والمستقبل", body: "نحن في O2Z نبني مستقبل الأعمال الرقمية من خلال الذكاء الاصطناعي والأتمتة.<br><br>نبحث عن مواهب طموحة للانضمام إلى فريقنا والعمل على حلول تقنية متقدمة ذات تأثير حقيقي.<br><br>📩 <a href='mailto:careers@o2z.ai' dir='ltr' class='text-primary inline-block font-semibold hover:underline'>careers@o2z.ai</a><br><br><div class='mt-4 pt-4 border-t border-slate-200 dark:border-slate-800'><a href='https://wa.me/962797979760' target='_blank' class='inline-flex w-fit items-center gap-2 px-5 py-2 rounded-xl bg-[#25D366] text-white font-medium hover:bg-[#1ebd5a] transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#25D366]/30'><svg class='w-4 h-4 fill-current' viewBox='0 0 24 24'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z'/></svg> تواصل عبر الواتساب</a></div>" }
+            },
+            "partners": {
+                en: { title: "Partners", body: "We collaborate with strategic and technology partners to deliver best-in-class solutions, including advertising platforms, communication channels, and CRM systems." },
+                ar: { title: "الشركاء", body: "نعمل مع شركاء تقنيين واستراتيجيين لضمان تقديم أفضل الحلول لعملائنا، بما يشمل منصات الإعلان، قنوات التواصل، وأنظمة إدارة العملاء." }
+            },
+            "contact": {
+                en: { title: "Contact Us", body: "<div class='space-y-4'><div class='flex items-center gap-3'><span class='text-xl'>📧</span> <a href='mailto:info@o2z.ai' class='text-primary hover:underline font-semibold' dir='ltr'>info@o2z.ai</a></div><div class='flex items-center gap-3'><span class='text-xl'>📍</span> <span>Amman, Jordan</span></div><div class='mt-6 pt-6 border-t border-slate-200 dark:border-slate-800'><p class='text-slate-500 dark:text-slate-400 mb-4'>You can also contact us directly via WhatsApp:</p><a href='https://wa.me/962797979760' target='_blank' class='inline-flex w-fit items-center gap-2 px-6 py-2.5 rounded-xl bg-[#25D366] text-white font-medium hover:bg-[#1ebd5a] transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#25D366]/30'><svg class='w-5 h-5 fill-current' viewBox='0 0 24 24'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z'/></svg> Chat on WhatsApp</a></div></div>" },
+                ar: { title: "تواصل معنا", body: "<div class='space-y-4'><div class='flex items-center gap-3'><span class='text-xl'>📧</span> <a href='mailto:info@o2z.ai' class='text-primary hover:underline font-semibold' dir='ltr'>info@o2z.ai</a></div><div class='flex items-center gap-3'><span class='text-xl'>📍</span> <span>عمّان، الأردن</span></div><div class='mt-6 pt-6 border-t border-slate-200 dark:border-slate-800'><p class='text-slate-500 dark:text-slate-400 mb-4'>بإمكانك التواصل معنا أيضاً بكل سهولة عبر الواتساب:</p><a href='https://wa.me/962797979760' target='_blank' class='inline-flex w-fit items-center gap-2 px-6 py-2.5 rounded-xl bg-[#25D366] text-white font-medium hover:bg-[#1ebd5a] transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#25D366]/30'><svg class='w-5 h-5 fill-current' viewBox='0 0 24 24'><path d='M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z'/></svg> تواصل عبر الواتساب</a></div></div>" }
+            },
+            "privacy": {
+                en: { title: "Privacy Policy", body: "O2Z is committed to protecting user data privacy in accordance with international standards.<br><br>We collect data solely to improve our services and user experience. We do not share data with third parties without explicit consent, except where required by law." },
+                ar: { title: "سياسة الخصوصية", body: "نلتزم في O2Z بحماية خصوصية بيانات المستخدمين وفقًا لأعلى المعايير العالمية.<br><br>نقوم بجمع البيانات فقط لغرض تحسين الخدمة وتقديم تجربة أفضل، ولا يتم مشاركة البيانات مع أي طرف ثالث دون موافقة صريحة، إلا في الحالات التي يتطلبها القانون." }
+            },
+            "terms": {
+                en: { title: "Terms of Service", body: "By using O2Z, you agree to comply with all terms and conditions.<br><br>Unauthorized access, misuse, or illegal activities are strictly prohibited.<br><br>O2Z reserves the right to update or modify these terms at any time." },
+                ar: { title: "شروط الخدمة", body: "باستخدامك لمنصة O2Z، فإنك توافق على الالتزام بجميع الشروط والأحكام.<br><br>يُحظر استخدام المنصة لأي أنشطة غير قانونية أو محاولة الوصول غير المصرح به إلى النظام.<br><br>تحتفظ O2Z بالحق في تعديل أو تحديث الشروط في أي وقت." }
+            },
+            "security": {
+                en: { title: "Security", body: "At O2Z, we implement enterprise-grade security standards to protect data and infrastructure, including:<br><br><ul class='space-y-2 mt-4'><li>• Data encryption</li><li>• Advanced threat protection systems</li><li>• Continuous monitoring and security audits</li></ul>" },
+                ar: { title: "الأمان", body: "نطبق في O2Z أعلى معايير الأمان لضمان حماية البيانات والبنية التحتية، بما يشمل:<br><br><ul class='space-y-2 mt-4'><li>• تشفير البيانات (Encryption)</li><li>• أنظمة حماية متقدمة ضد الهجمات</li><li>• مراقبة مستمرة للبنية التحتية</li></ul>" }
+            }
+        };
+
+        function openContentModal(key) {
+            const modal = document.getElementById('contentModal');
+            const panel = document.getElementById('contentModalPanel');
+            const title = document.getElementById('contentModalTitle');
+            const body = document.getElementById('contentModalBody');
+            
+            title.innerHTML = modalContent[key][currentLang].title;
+            body.innerHTML = modalContent[key][currentLang].body;
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                panel.classList.remove('scale-95', 'opacity-0');
+                panel.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeContentModal() {
+            const modal = document.getElementById('contentModal');
+            const panel = document.getElementById('contentModalPanel');
+            
+            panel.classList.remove('scale-100', 'opacity-100');
+            panel.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            const isRTL = document.documentElement.dir === 'rtl';
+            
+            if (menu.classList.contains('translate-x-full') || menu.classList.contains('-translate-x-full')) {
+                menu.classList.remove('translate-x-full', '-translate-x-full');
+                menu.classList.add('translate-x-0');
+                document.body.style.overflow = 'hidden';
+            } else {
+                menu.classList.remove('translate-x-0');
+                menu.classList.add(isRTL ? '-translate-x-full' : 'translate-x-full');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function toggleMobileSubmenu(id) {
+            const submenu = document.getElementById(id);
+            const arrow = document.getElementById(id + 'Arrow');
+            if (submenu.classList.contains('hidden')) {
+                submenu.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+            } else {
+                submenu.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
